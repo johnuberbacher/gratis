@@ -53,17 +53,21 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
-                                  color: Colors.black12,
-                                  offset: Offset(0, 10),
-                                  blurRadius: 15,
-                                  spreadRadius: 0),
+                                color: Colors.black.withOpacity(0.075),
+                                offset: Offset(0, 10),
+                                blurRadius: 15,
+                                spreadRadius: 0,
+                              ),
                             ],
                           ),
                           child: TextFormField(
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               hintText: "What's your First Name?",
-                              hintStyle: TextStyle(fontSize: 16),
+                              hintStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(100),
                                 borderSide: BorderSide(
@@ -95,7 +99,7 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
-                                  color: Colors.black12,
+                                  color: Colors.black.withOpacity(0.075),
                                   offset: Offset(0, 10),
                                   blurRadius: 15,
                                   spreadRadius: 0),
@@ -105,7 +109,10 @@ class _SignUpState extends State<SignUp> {
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               hintText: "What's your First Name?",
-                              hintStyle: TextStyle(fontSize: 16),
+                              hintStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(100),
                                 borderSide: BorderSide(
@@ -123,6 +130,28 @@ class _SignUpState extends State<SignUp> {
                                 vertical: 20,
                                 horizontal: 30.0,
                               ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(
+                          top: 30.0,
+                        ),
+                        width: double.infinity,
+                        child: RaisedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SignUp()),
+                            );
+                          },
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: Color(0xFFFFFFFF),
                             ),
                           ),
                         ),

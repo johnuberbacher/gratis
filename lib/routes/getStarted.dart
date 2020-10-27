@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gratis/routes/home.dart';
 import 'package:gratis/routes/signUp.dart';
 
 class GetStarted extends StatefulWidget {
@@ -102,12 +103,21 @@ class _GetStartedState extends State<GetStarted> {
                       padding: const EdgeInsets.only(
                         top: 30.0,
                       ),
-                      child: Text(
-                        "Already have an account? Log in",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                          color: Color(0xFFFFFFFF),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                          );
+                        },
+                        child: Text(
+                          "Already have an account? Log in",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            color: Color(0xFFFFFFFF),
+                          ),
                         ),
                       ),
                     ),
