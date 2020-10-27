@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gratis/routes/home.dart';
 import 'package:gratis/routes/getStarted.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: Colors.black,
     systemNavigationBarIconBrightness: Brightness.light,
   ));
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
