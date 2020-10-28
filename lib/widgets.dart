@@ -8,7 +8,7 @@ Widget sectionTitle(String title) {
     ),
     child: Padding(
       padding: const EdgeInsets.only(
-        top: 30.0,
+        top: 15.0,
       ),
       child: Text(
         title,
@@ -18,5 +18,54 @@ Widget sectionTitle(String title) {
         ),
       ),
     ),
+  );
+}
+
+InputDecoration elevatedTextFieldInputDecoration(context, String hintText) {
+  return InputDecoration(
+    hintText: hintText,
+    hintStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(100),
+      borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 3.0),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(100),
+      borderSide: BorderSide(color: Colors.transparent, width: 3.0),
+    ),
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: EdgeInsets.symmetric(
+      vertical: 20,
+      horizontal: 25,
+    ),
+  );
+}
+
+InputDecoration elevatedPasswordInputDecoration(context, String hintText) {
+  return InputDecoration(
+    hintText: hintText,
+    hintStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(100),
+      borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 3.0),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(100),
+      borderSide: BorderSide(color: Colors.transparent, width: 3.0),
+    ),
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: EdgeInsets.symmetric(
+      vertical: 20,
+      horizontal: 25,
+    ),
+    suffixIcon: Icon(Icons.remove_red_eye),
   );
 }
