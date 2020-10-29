@@ -2,6 +2,29 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseMethods {
+  getUserInfo(String email) async {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .where("email", isEqualTo: email)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  getUserByUserEmail(String userEmail) async {
+    return await FirebaseFirestore.instance
+        .collection("users")
+        .where("email", isEqualTo: userEmail)
+        .get();
+  }
+
+  setUserInfo(userMap) {
+    FirebaseFirestore.instance.collection("users").add(userMap).catchError((e) {
+      print(e.toString());
+    });
+  }
+
   getAllLocations() async {
     return await FirebaseFirestore.instance
         .collection("locations")

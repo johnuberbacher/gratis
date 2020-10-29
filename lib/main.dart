@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gratis/routes/getStarted.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gratis/routes/home.dart';
+import 'package:gratis/services/shared_preferences.dart';
+import 'package:gratis/services/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +26,24 @@ class _MyAppState extends State<MyApp> {
   bool userIsLoggedIn;
   @override
   void initState() {
+    getLoggedInState();
     super.initState();
+    WidgetsBinding.instance.renderView.automaticSystemUiAdjustment =
+        false; //<--
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Color(0xFF1f1e30),
+        systemNavigationBarColor: Color(0xFF1f1e30),
+      ),
+    );
+  }
+
+  getLoggedInState() async {
+    await HelperFunctions.getUserLoggedInPreference().then((value) {
+      setState(() {
+        userIsLoggedIn = value;
+      });
+    });
   }
 
   @override
@@ -31,7 +51,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "Welcome to Gratis",
       debugShowCheckedModeBanner: false,
-      home: GetStarted(),
+      home: userIsLoggedIn != null
+          ? userIsLoggedIn ? HomeScreen() : Authenticate()
+          : Container(
+              child: Center(
+                child: Authenticate(),
+              ),
+            ),
       theme: ThemeData(
         primarySwatch: Colors.teal,
         primaryColor: Color(0xFF54d3c2),

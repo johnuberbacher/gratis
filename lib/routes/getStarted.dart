@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gratis/routes/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gratis/widgets.dart';
 import 'package:gratis/routes/signUp.dart';
+import 'package:gratis/routes/signIn.dart';
+import 'package:gratis/services/auth.dart';
+import 'package:gratis/services/shared_preferences.dart';
 
 class GetStarted extends StatefulWidget {
+  final Function toggleView;
+  GetStarted(this.toggleView);
   @override
   _GetStartedState createState() => _GetStartedState();
 }
@@ -86,7 +93,8 @@ class _GetStartedState extends State<GetStarted> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => SignUp()),
+                            MaterialPageRoute(
+                                builder: (context) => SignUpPage()),
                           );
                         },
                         child: Text(
@@ -105,11 +113,7 @@ class _GetStartedState extends State<GetStarted> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()),
-                          );
+                          widget.toggleView();
                         },
                         child: Text(
                           "Already have an account? Log in",

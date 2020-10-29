@@ -1,55 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gratis/routes/home.dart';
-import 'package:gratis/routes/signIn.dart';
 import 'package:gratis/widgets.dart';
 import 'package:gratis/database.dart';
 import 'package:gratis/services/auth.dart';
+import 'package:gratis/services/shared_preferences.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignInPage extends StatefulWidget {
+  final Function toggleView;
+  SignInPage(this.toggleView);
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _SignInPageState createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-  bool isLoading = false;
-
-  AuthMethods authMethods = new AuthMethods();
-  DatabaseMethods databaseMethods = new DatabaseMethods();
-
-  final formKey = GlobalKey<FormState>();
-  TextEditingController firstNameTextEditingController =
-      new TextEditingController();
-  TextEditingController firstNameLowercaseTextEditingController =
-      new TextEditingController();
-  TextEditingController lastNameTextEditingController =
-      new TextEditingController();
+class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   TextEditingController emailTextEditingController =
       new TextEditingController();
   TextEditingController passwordTextEditingController =
       new TextEditingController();
+  AuthMethods authService = new AuthMethods();
+  final formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
-  signUpAccount() {
+  signIn() async {
     if (formKey.currentState.validate()) {
-      Map<String, String> userInfoMap = {
-        "name": firstNameTextEditingController.text,
-        "email": emailTextEditingController.text
-      };
-
-      HelperFunctions.saveUserNamePreference(
-          firstNameTextEditingController.text);
-      HelperFunctions.saveUserEmailPreference(emailTextEditingController.text);
-
       setState(() {
         isLoading = true;
       });
-      authMethods
-          .signUpWithEmailAndPassword(emailTextEditingController.text,
+
+      await authService
+          .signInWithEmailAndPassword(emailTextEditingController.text,
               passwordTextEditingController.text)
-          .then((val) {
-        databaseMethods.setUserInfo(userInfoMap);
-        HelperFunctions.saveUserLoggedInPreference(true);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          .then((result) async {
+        if (result != null) {
+          QuerySnapshot userInfoSnapshot = await DatabaseMethods()
+              .getUserInfo(emailTextEditingController.text);
+
+          CheckSharedPreferences.saveUserLoggedInSharedPreference(true);
+          CheckSharedPreferences.saveNameSharedPreference(
+              userInfoSnapshot.docs[0].data()["name"]);
+          CheckSharedPreferences.saveUserEmailSharedPreference(
+              userInfoSnapshot.docs[0].data()["email"]);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(),
+            ),
+          );
+        } else {
+          setState(() {
+            isLoading = false;
+            // TODO
+          });
+        }
       });
     }
   }
@@ -62,6 +66,12 @@ class _SignUpPageState extends State<SignUpPage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+              widget.toggleView();
+            },
+          ),
         ),
         backgroundColor: Color(0xFFf6f6f6),
         body: Center(
@@ -80,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Sign up",
+                    "Sign In",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 30,
@@ -100,57 +110,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     key: formKey,
                     child: Column(
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: 20.0,
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.075),
-                                  offset: Offset(0, 10),
-                                  blurRadius: 15,
-                                  spreadRadius: 0,
-                                ),
-                              ],
-                            ),
-                            child: TextFormField(
-                              controller: firstNameTextEditingController,
-                              //  style: TextStyle(
-                              //    color: Theme.of(context).primaryColor),
-                              keyboardType: TextInputType.text,
-                              decoration: elevatedTextFieldInputDecoration(
-                                  context, "First Name"),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: 20.0,
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.075),
-                                    offset: Offset(0, 10),
-                                    blurRadius: 15,
-                                    spreadRadius: 0),
-                              ],
-                            ),
-                            child: TextFormField(
-                              controller: lastNameTextEditingController,
-                              keyboardType: TextInputType.text,
-                              decoration: elevatedTextFieldInputDecoration(
-                                  context, "Last Name"),
-                            ),
-                          ),
-                        ),
                         Container(
                           margin: EdgeInsets.only(
                             top: 20.0,
@@ -220,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           width: double.infinity,
                           child: RaisedButton(
                             onPressed: () {
-                              signUpAccount();
+                              signIn();
                             },
                             child: Text(
                               "Sign up",
