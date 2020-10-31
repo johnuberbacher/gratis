@@ -234,7 +234,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         Container(
                           margin: const EdgeInsets.only(
-                            top: 30.0,
+                            top: 15.0,
                             left: 30.0,
                             right: 30.0,
                           ),
@@ -245,6 +245,40 @@ class _SignUpPageState extends State<SignUpPage> {
                             style: TextStyle(
                               color: Color(0xFF9f9f9f),
                               fontSize: 13,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                            top: 30.0,
+                          ),
+                          width: double.infinity,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: 'Already have an account?',
+                                    style: TextStyle(
+                                      color: Color(0xFF9f9f9f),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '  Login instead',
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

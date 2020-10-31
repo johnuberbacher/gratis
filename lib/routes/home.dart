@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gratis/widgets.dart';
+import 'package:gratis/services/auth.dart';
 import 'package:gratis/database.dart';
 
 DocumentSnapshot snapshot;
@@ -14,6 +14,23 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   QuerySnapshot locationSnapshot;
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Business',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: School',
+      style: optionStyle,
+    ),
+  ];
 
   getLocations() async {
     databaseMethods.getAllLocations().then((val) {
@@ -234,13 +251,94 @@ class _HomeScreenState extends State<HomeScreen> {
     getLocations();
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    AuthMethods authMethods = new AuthMethods();
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: 12.0,
+        unselectedFontSize: 12.0,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Padding(
+              padding: const EdgeInsets.only(
+                top: 1.0,
+              ),
+              child: Text(
+                "Explore",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.airplanemode_active),
+            title: Padding(
+              padding: const EdgeInsets.only(
+                top: 1.0,
+              ),
+              child: Text(
+                "Trips",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            title: Padding(
+              padding: const EdgeInsets.only(
+                top: 1.0,
+              ),
+              child: Text(
+                "Profile",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).primaryColor,
+        onTap: _onItemTapped,
+      ),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
+              actions: <Widget>[
+                IconButton(
+                    icon: Container(
+                      width: 32.0,
+                      height: 32.0,
+                      decoration: new BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: new NetworkImage(
+                              "https://i.imgur.com/iQkzaTO.jpg"),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      authMethods.signOut();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Authenticate()));
+                    }),
+              ],
               iconTheme: IconThemeData(
                 color: Colors.white,
               ),

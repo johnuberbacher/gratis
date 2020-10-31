@@ -21,9 +21,19 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     if (showSignIn) {
-      return SignInPage(toggleView);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SignInPage(toggleView),
+        ),
+      );
     } else {
-      return GetStarted(toggleView);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GetStarted(toggleView),
+        ),
+      );
     }
   }
 }
@@ -58,7 +68,7 @@ class AuthMethods {
     }
   }
 
-  Future resetPass(String email) async {
+  Future resetPassword(String email) async {
     try {
       return await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {

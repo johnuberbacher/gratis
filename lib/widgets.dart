@@ -23,10 +23,19 @@ Widget sectionTitle(String title) {
 
 InputDecoration elevatedTextFieldInputDecoration(context, String hintText) {
   return InputDecoration(
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: EdgeInsets.symmetric(
+      vertical: 20,
+      horizontal: 25,
+    ),
     hintText: hintText,
     hintStyle: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w400,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(100),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(100),
@@ -36,11 +45,10 @@ InputDecoration elevatedTextFieldInputDecoration(context, String hintText) {
       borderRadius: BorderRadius.circular(100),
       borderSide: BorderSide(color: Colors.transparent, width: 3.0),
     ),
-    filled: true,
-    fillColor: Colors.white,
-    contentPadding: EdgeInsets.symmetric(
-      vertical: 20,
-      horizontal: 25,
+    errorStyle: TextStyle(height: 0),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(100),
+      borderSide: BorderSide(color: Colors.red, width: 3.0),
     ),
   );
 }

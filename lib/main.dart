@@ -13,6 +13,7 @@ void main() async {
     systemNavigationBarColor: Colors.black,
     systemNavigationBarIconBrightness: Brightness.light,
   ));
+  SystemChrome.setEnabledSystemUIOverlays([]);
   await Firebase.initializeApp();
   runApp(MyApp());
 }

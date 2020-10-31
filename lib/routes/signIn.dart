@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gratis/routes/getStarted.dart';
 import 'package:gratis/routes/home.dart';
 import 'package:gratis/widgets.dart';
 import 'package:gratis/database.dart';
@@ -194,16 +195,40 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                         Container(
                           margin: const EdgeInsets.only(
                             top: 30.0,
-                            left: 30.0,
-                            right: 30.0,
                           ),
                           width: double.infinity,
-                          child: Text(
-                            'By signing up, you agree with our Terms of Services and Privacy Policy.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFF9f9f9f),
-                              fontSize: 13,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      GetStarted(widget.toggleView),
+                                ),
+                              );
+                            },
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "Don't have an account?",
+                                    style: TextStyle(
+                                      color: Color(0xFF9f9f9f),
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '  Sign up',
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
