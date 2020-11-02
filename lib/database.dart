@@ -34,6 +34,16 @@ class DatabaseMethods {
       print(e.toString());
     });
   }
+
+  getLocationTripInfo(String locationName) async {
+    return await FirebaseFirestore.instance
+        .collection("locations")
+        .where("name", isEqualTo: locationName)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
 }
 
 class HelperFunctions {

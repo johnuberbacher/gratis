@@ -53,12 +53,8 @@ class _MyAppState extends State<MyApp> {
       title: "Welcome to Gratis",
       debugShowCheckedModeBanner: false,
       home: userIsLoggedIn != null
-          ? userIsLoggedIn ? HomeScreen() : Authenticate()
-          : Container(
-              child: Center(
-                child: Authenticate(),
-              ),
-            ),
+          ? userIsLoggedIn ? HomeScreen() : GetStarted()
+          : GetStarted(),
       theme: ThemeData(
         primarySwatch: Colors.teal,
         primaryColor: Color(0xFF54d3c2),

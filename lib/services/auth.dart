@@ -24,14 +24,14 @@ class _AuthenticateState extends State<Authenticate> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SignInPage(toggleView),
+          builder: (context) => SignInPage(),
         ),
       );
     } else {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GetStarted(toggleView),
+          builder: (context) => GetStarted(),
         ),
       );
     }

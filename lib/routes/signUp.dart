@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gratis/routes/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gratis/routes/signIn.dart';
 import 'package:gratis/widgets.dart';
 import 'package:gratis/database.dart';
@@ -255,7 +256,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
-                              Navigator.pop(context);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SignUpPage(),
+                                ),
+                              );
                             },
                             child: RichText(
                               textAlign: TextAlign.center,

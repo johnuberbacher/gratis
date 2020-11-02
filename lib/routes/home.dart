@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gratis/routes/destination.dart';
 import 'package:gratis/widgets.dart';
 import 'package:gratis/services/auth.dart';
 import 'package:gratis/database.dart';
@@ -112,76 +113,95 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Container(
-            height: 100,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: new DecorationImage(
-                image: NetworkImage(locationBackdropImagePath),
-                fit: BoxFit.cover,
+      child: Material(
+        child: InkWell(
+          splashColor: Colors.white,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DestinationPage(locationName),
               ),
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20),
-              ),
-            ),
-          ),
-          Container(
-            width: double.infinity,
+            );
+          },
+          child: Ink(
+            width: 150.0,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Padding(
-              padding: EdgeInsets.all(
-                15.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    locationName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 16,
+            child: Column(
+              children: [
+                Container(
+                  height: 100,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    image: new DecorationImage(
+                      image: NetworkImage(locationBackdropImagePath),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 10,
-                    ),
-                    child: Text(
-                      "1 Room - 2 Adults",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                        fontSize: 13,
-                      ),
+                ),
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 2.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(
+                      15.0,
                     ),
-                    child: Text(
-                      "Jan 15 - 25",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                        fontSize: 13,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          capitalize(locationName),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 10,
+                          ),
+                          child: Text(
+                            "1 Room - 2 Adults",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 2.0,
+                          ),
+                          child: Text(
+                            "Jan 15 - 25",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

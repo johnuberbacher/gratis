@@ -8,8 +8,6 @@ import 'package:gratis/services/auth.dart';
 import 'package:gratis/services/shared_preferences.dart';
 
 class GetStarted extends StatefulWidget {
-  final Function toggleView;
-  GetStarted(this.toggleView);
   @override
   _GetStartedState createState() => _GetStartedState();
 }
@@ -113,7 +111,12 @@ class _GetStartedState extends State<GetStarted> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          widget.toggleView();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignInPage(),
+                            ),
+                          );
                         },
                         child: Text(
                           "Already have an account? Log in",
