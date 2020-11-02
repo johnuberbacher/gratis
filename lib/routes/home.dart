@@ -170,20 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: Text(
-                            "1 Room - 2 Adults",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 2.0,
+                            top: 10.0,
                           ),
                           child: Text(
                             "Jan 15 - 25",

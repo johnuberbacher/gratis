@@ -44,6 +44,26 @@ class DatabaseMethods {
       print(e.toString());
     });
   }
+
+  getLocationReviews(String locationName) async {
+    return await FirebaseFirestore.instance
+        .collection("reviews")
+        .where("reviewLocation", isEqualTo: locationName)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  getLocationGallery(String locationName) async {
+    return await FirebaseFirestore.instance
+        .collection("galleries")
+        .where("galleryLocation", isEqualTo: locationName)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
 }
 
 class HelperFunctions {

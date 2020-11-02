@@ -18,6 +18,18 @@ class _DestinationPageState extends State<DestinationPage> {
   _DestinationPageState(this.locationName);
   DatabaseMethods databaseMethods = new DatabaseMethods();
   QuerySnapshot destinationSnapshot;
+  QuerySnapshot gallerySnapshot;
+
+  getDestinationGallery(locationName) async {
+    print(locationName);
+    databaseMethods.getLocationGallery(locationName).then((val) {
+      print(val.toString());
+      setState(() {
+        gallerySnapshot = val;
+        print(gallerySnapshot.toString());
+      });
+    });
+  }
 
   getDestinationInfo(locationName) async {
     print(locationName);
@@ -28,12 +40,6 @@ class _DestinationPageState extends State<DestinationPage> {
         print(destinationSnapshot.toString());
       });
     });
-  }
-
-  @override
-  void initState() {
-    getDestinationInfo(locationName);
-    super.initState();
   }
 
   Widget loadDestinationBackdrop() {
@@ -89,7 +95,6 @@ class _DestinationPageState extends State<DestinationPage> {
                             '$city, $country' ?? "error",
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize: 13,
                             ),
                           ),
                         ),
@@ -251,22 +256,7 @@ class _DestinationPageState extends State<DestinationPage> {
                             bottom: 10.0,
                           ),
                           height: 100,
-                          child: ListView(
-                            padding: EdgeInsets.zero,
-                            scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              destinationGallery(
-                                  context, "https://i.imgur.com/gKdDh8p.jpg"),
-                              destinationGallery(
-                                  context, "https://i.imgur.com/bJ6gU02.jpg"),
-                              destinationGallery(
-                                  context, "https://i.imgur.com/ZJZIrIB.jpg"),
-                              destinationGallery(
-                                  context, "https://i.imgur.com/pTAuS44.jpg"),
-                              destinationGallery(
-                                  context, "https://i.imgur.com/eY1lW0A.jpg"),
-                            ],
-                          ),
+                          child: galleryImages(),
                         ),
                         Container(
                           margin: const EdgeInsets.only(
@@ -456,6 +446,51 @@ class _DestinationPageState extends State<DestinationPage> {
               child: CircularProgressIndicator(),
             ),
           );
+  }
+
+  Widget galleryImages() {
+    return gallerySnapshot != null
+        ? Container(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: gallerySnapshot.docs.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Container(
+                  width: 100.0,
+                  margin: const EdgeInsets.only(
+                    left: 20.0,
+                  ),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(
+                          gallerySnapshot.docs[index].data()["galleryPath"]),
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ),
+                );
+              },
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+            ),
+            body: Container(
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(),
+            ),
+          );
+  }
+
+  @override
+  void initState() {
+    getDestinationInfo(locationName);
+    getDestinationGallery(locationName);
+    super.initState();
   }
 
   @override
