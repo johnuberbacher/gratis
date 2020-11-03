@@ -3,7 +3,7 @@
 
 ## Screenshot
 
-![Screenshot](https://imgur.com/a/dAOW72D)
+![Screenshot](https://i.imgur.com/fsX464Z.jpg)
 
 ## Meta
 
