@@ -19,6 +19,7 @@ class _DestinationPageState extends State<DestinationPage> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   QuerySnapshot destinationSnapshot;
   QuerySnapshot gallerySnapshot;
+  QuerySnapshot reviewSnapshot;
 
   getDestinationGallery(locationName) async {
     print(locationName);
@@ -38,6 +39,17 @@ class _DestinationPageState extends State<DestinationPage> {
       setState(() {
         destinationSnapshot = val;
         print(destinationSnapshot.toString());
+      });
+    });
+  }
+
+  getLocationReviews(locationName) async {
+    print(locationName);
+    databaseMethods.getLocationReviews(locationName).then((val) {
+      print(val.toString());
+      setState(() {
+        reviewSnapshot = val;
+        print(reviewSnapshot.toString());
       });
     });
   }
@@ -82,9 +94,9 @@ class _DestinationPageState extends State<DestinationPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        sectionTitle(
-                            destinationSnapshot.docs[index].data()["name"] ??
-                                "error"),
+                        sectionTitle(destinationSnapshot.docs[index]
+                                .data()["locationName"] ??
+                            "error"),
                         Container(
                           margin: const EdgeInsets.only(
                             top: 10.0,
@@ -150,6 +162,80 @@ class _DestinationPageState extends State<DestinationPage> {
                             ),
                             child: Column(
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 10.0,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          right: 20.0,
+                                        ),
+                                        child: Text(
+                                          "4.5",
+                                          style: TextStyle(
+                                            fontSize: 36.0,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              bottom: 3.0,
+                                            ),
+                                            child: Text("Total Score"),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.star,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                size: 18,
+                                              ),
+                                              Icon(
+                                                Icons.star,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                size: 18,
+                                              ),
+                                              Icon(
+                                                Icons.star,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                size: 18,
+                                              ),
+                                              Icon(
+                                                Icons.star,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                size: 18,
+                                              ),
+                                              Icon(
+                                                Icons.star_half,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                size: 18,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,60 +244,92 @@ class _DestinationPageState extends State<DestinationPage> {
                                       padding: const EdgeInsets.only(
                                         right: 20.0,
                                       ),
-                                      child: Text(
-                                        "4.5",
-                                        style: TextStyle(
-                                          fontSize: 36.0,
-                                          color: Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.w900,
-                                        ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Room",
+                                          ),
+                                          Text(
+                                            "Service",
+                                          ),
+                                          Text(
+                                            "Location",
+                                          ),
+                                          Text(
+                                            "Price",
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 3.0,
+                                        Container(
+                                          height: 8.0,
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 4.0,
                                           ),
-                                          child: Text("Total Score"),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0)),
+                                          ),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.54,
                                         ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                            Icon(
-                                              Icons.star_half,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                          ],
+                                        Container(
+                                          height: 8.0,
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 4.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0)),
+                                          ),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.56,
+                                        ),
+                                        Container(
+                                          height: 8.0,
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 4.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0)),
+                                          ),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.60,
+                                        ),
+                                        Container(
+                                          height: 8.0,
+                                          margin: const EdgeInsets.symmetric(
+                                            vertical: 4.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0)),
+                                          ),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.50,
                                         ),
                                       ],
                                     ),
@@ -288,7 +406,7 @@ class _DestinationPageState extends State<DestinationPage> {
                                     MaterialPageRoute(
                                       builder: (context) => ReviewsPage(
                                           destinationSnapshot.docs[index]
-                                              .data()["name"]),
+                                              .data()["locationName"]),
                                     ),
                                   );
                                 },
@@ -296,139 +414,7 @@ class _DestinationPageState extends State<DestinationPage> {
                             ],
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            left: 20.0,
-                            bottom: 10.0,
-                            right: 20.0,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              top: 15.0,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 40.0,
-                                          height: 40.0,
-                                          margin: const EdgeInsets.only(
-                                            right: 15.0,
-                                          ),
-                                          decoration: new BoxDecoration(
-                                            border:
-                                                Border.all(color: Colors.white),
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image: new NetworkImage(
-                                                  "https://i.imgur.com/iQkzaTO.jpg"),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 20.0,
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "John Uberbacher",
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              Text(
-                                                "Posted November 1, 2020",
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            bottom: 3.0,
-                                          ),
-                                          child: Text("Rating"),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                            Icon(
-                                              Icons.star,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                            Icon(
-                                              Icons.star_half,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              size: 18,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 15.0,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "Quis vel eros donec ac odio. At quis risus sed vulputate odio ut enim blandit. Morbi quis commodo odio aenean.",
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        reviewsList(),
                       ],
                     ),
                   ),
@@ -446,6 +432,162 @@ class _DestinationPageState extends State<DestinationPage> {
               child: CircularProgressIndicator(),
             ),
           );
+  }
+
+  Widget reviewsList() {
+    return reviewSnapshot != null
+        ? ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: 2,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return reviewItem(
+                reviewUser: reviewSnapshot.docs[index].data()["reviewUser"],
+                reviewBody: reviewSnapshot.docs[index].data()["reviewBody"],
+              );
+            },
+          )
+        : Container(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 30.0,
+                ),
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+  }
+
+  Widget reviewItem({String reviewUser, String reviewBody}) {
+    return Container(
+      margin: const EdgeInsets.only(
+        left: 20.0,
+        bottom: 20.0,
+        right: 20.0,
+      ),
+      child: Column(
+        children: [
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 15.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 40.0,
+                          height: 40.0,
+                          margin: const EdgeInsets.only(
+                            right: 15.0,
+                          ),
+                          decoration: new BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.fill,
+                              image: new NetworkImage(
+                                  "https://i.imgur.com/iQkzaTO.jpg"),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 20.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                reviewUser,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(
+                                "Posted November 1, 2020",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 3.0,
+                          ),
+                          child: Text("Rating"),
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Theme.of(context).primaryColor,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Theme.of(context).primaryColor,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Theme.of(context).primaryColor,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Theme.of(context).primaryColor,
+                              size: 18,
+                            ),
+                            Icon(
+                              Icons.star_half,
+                              color: Theme.of(context).primaryColor,
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 15.0,
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        reviewBody,
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget galleryImages() {
@@ -490,6 +632,7 @@ class _DestinationPageState extends State<DestinationPage> {
   void initState() {
     getDestinationInfo(locationName);
     getDestinationGallery(locationName);
+    getLocationReviews(locationName);
     super.initState();
   }
 

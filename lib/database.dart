@@ -28,7 +28,7 @@ class DatabaseMethods {
   getAllLocations() async {
     return await FirebaseFirestore.instance
         .collection("locations")
-        .orderBy("name")
+        .orderBy("locationName")
         .get()
         .catchError((e) {
       print(e.toString());
@@ -38,7 +38,7 @@ class DatabaseMethods {
   getLocationTripInfo(String locationName) async {
     return await FirebaseFirestore.instance
         .collection("locations")
-        .where("name", isEqualTo: locationName)
+        .where("locationName", isEqualTo: locationName)
         .get()
         .catchError((e) {
       print(e.toString());
