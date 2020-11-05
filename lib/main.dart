@@ -59,6 +59,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.teal,
         primaryColor: Color(0xFF54d3c2),
         disabledColor: Colors.red,
+        splashColor: Color(0xFF54d3c2),
         buttonTheme: ButtonThemeData(
           padding: EdgeInsets.symmetric(
             vertical: 15.0,

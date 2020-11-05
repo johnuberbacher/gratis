@@ -79,6 +79,8 @@ InputDecoration elevatedPasswordInputDecoration(context, String hintText) {
 }
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+String capitalizeFirstOfEach(String s) =>
+    s.split(" ").map((str) => capitalize(str)).join(" ");
 
 class DescriptionTextWidget extends StatefulWidget {
   final String text;

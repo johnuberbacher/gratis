@@ -41,6 +41,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             scrollDirection: Axis.vertical,
             itemCount: reviewSnapshot.docs.length,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return reviewItem(
                 reviewUser: reviewSnapshot.docs[index].data()["reviewUser"],
@@ -95,7 +96,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                             shape: BoxShape.circle,
                             image: new DecorationImage(
                               fit: BoxFit.fill,
-                              image: new NetworkImage(
+                              image: new CachedNetworkImageProvider(
                                   "https://i.imgur.com/iQkzaTO.jpg"),
                             ),
                           ),

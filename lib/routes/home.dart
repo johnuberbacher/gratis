@@ -4,6 +4,8 @@ import 'package:gratis/routes/destination.dart';
 import 'package:gratis/widgets.dart';
 import 'package:gratis/services/auth.dart';
 import 'package:gratis/database.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 DocumentSnapshot snapshot;
 
@@ -51,7 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return locationCard(
-                  locationName: locationSnapshot.docs[index].data()["name"],
+                  locationName:
+                      locationSnapshot.docs[index].data()["locationName"],
                   locationBackdropImagePath:
                       locationSnapshot.docs[index].data()["backdropPath"]);
             },
@@ -76,7 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return destinationCard(
-                  locationName: locationSnapshot.docs[index].data()["name"],
+                  locationName:
+                      locationSnapshot.docs[index].data()["locationName"],
                   locationBackdropImagePath:
                       locationSnapshot.docs[index].data()["backdropPath"]);
             },
@@ -103,7 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       width: 150.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -115,6 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Material(
         child: InkWell(
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           splashColor: Colors.white,
           onTap: () {
             Navigator.push(
@@ -137,7 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: new DecorationImage(
-                      image: NetworkImage(locationBackdropImagePath),
+                      image:
+                          CachedNetworkImageProvider(locationBackdropImagePath),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.only(
@@ -161,12 +168,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          capitalize(locationName),
+                        AutoSizeText(
+                          capitalizeFirstOfEach(locationName),
                           style: TextStyle(
                             fontWeight: FontWeight.w800,
                             fontSize: 16,
                           ),
+                          maxLines: 2,
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -204,7 +212,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       width: MediaQuery.of(context).size.width * 0.66,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -214,41 +221,55 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Container(
+      child: Ink(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(locationBackdropImagePath),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.black87.withOpacity(0.2), BlendMode.darken),
+          ),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.all(
+            Radius.circular(20),
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DestinationPage(locationName),
+              ),
+            );
+          },
+          splashColor: Colors.brown.withOpacity(0.5),
+          child: Container(
             height: 150,
             width: double.infinity,
-            decoration: BoxDecoration(
-              image: new DecorationImage(
-                image: NetworkImage(locationBackdropImagePath),
-                fit: BoxFit.cover,
-                colorFilter: ColorFilter.mode(
-                    Colors.black87.withOpacity(0.33), BlendMode.darken),
-              ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
             child: Container(
               alignment: Alignment.bottomLeft,
               child: Padding(
                 padding: const EdgeInsets.only(
-                  left: 30.0,
+                  left: 25.0,
+                  right: 60.0,
                   bottom: 20.0,
                 ),
-                child: Text(
-                  locationName,
+                child: AutoSizeText(
+                  capitalizeFirstOfEach(locationName),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w800,
-                    fontSize: 20,
+                    fontSize: 18,
                   ),
+                  maxLines: 2,
                 ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -333,17 +354,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         shape: BoxShape.circle,
                         image: new DecorationImage(
                           fit: BoxFit.fill,
-                          image: new NetworkImage(
+                          image: CachedNetworkImageProvider(
                               "https://i.imgur.com/iQkzaTO.jpg"),
                         ),
                       ),
                     ),
                     onPressed: () {
                       authMethods.signOut();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Authenticate()));
                     }),
               ],
               iconTheme: IconThemeData(

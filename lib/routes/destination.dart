@@ -94,8 +94,9 @@ class _DestinationPageState extends State<DestinationPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        sectionTitle(destinationSnapshot.docs[index]
-                                .data()["locationName"] ??
+                        sectionTitle(capitalizeFirstOfEach(destinationSnapshot
+                                .docs[index]
+                                .data()["locationName"]) ??
                             "error"),
                         Container(
                           margin: const EdgeInsets.only(
@@ -339,43 +340,7 @@ class _DestinationPageState extends State<DestinationPage> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 10.0,
-                            left: 20.0,
-                            right: 20.0,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              destinationTitle("Photos"),
-                              InkWell(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 10.0,
-                                  ),
-                                  child: Text(
-                                    "View All",
-                                    style: new TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {},
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 10.0,
-                            bottom: 10.0,
-                          ),
-                          height: 100,
-                          child: galleryImages(),
-                        ),
+                        galleryImages(),
                         Container(
                           margin: const EdgeInsets.only(
                             top: 10.0,
@@ -438,8 +403,9 @@ class _DestinationPageState extends State<DestinationPage> {
     return reviewSnapshot != null
         ? ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: 2,
+            itemCount: 1,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return reviewItem(
                 reviewUser: reviewSnapshot.docs[index].data()["reviewUser"],
@@ -494,7 +460,7 @@ class _DestinationPageState extends State<DestinationPage> {
                             shape: BoxShape.circle,
                             image: new DecorationImage(
                               fit: BoxFit.fill,
-                              image: new NetworkImage(
+                              image: new CachedNetworkImageProvider(
                                   "https://i.imgur.com/iQkzaTO.jpg"),
                             ),
                           ),
@@ -591,41 +557,74 @@ class _DestinationPageState extends State<DestinationPage> {
   }
 
   Widget galleryImages() {
-    return gallerySnapshot != null
-        ? Container(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: gallerySnapshot.docs.length,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 100.0,
-                  margin: const EdgeInsets.only(
-                    left: 20.0,
-                  ),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(
-                          gallerySnapshot.docs[index].data()["galleryPath"]),
+    return gallerySnapshot.docs.length != 0
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(
+                  top: 10.0,
+                  left: 20.0,
+                  right: 20.0,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    destinationTitle("Photos"),
+                    InkWell(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10.0,
+                        ),
+                        child: Text(
+                          "View All",
+                          style: new TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      onTap: () {},
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 10.0,
+                ),
+                height: 100,
+                child: Container(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: gallerySnapshot.docs.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: 100.0,
+                        margin: const EdgeInsets.only(
+                          left: 20.0,
+                        ),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: CachedNetworkImageProvider(gallerySnapshot
+                                .docs[index]
+                                .data()["galleryPath"]),
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
+                ),
+              )
+            ],
           )
-        : Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-            ),
-            body: Container(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(),
-            ),
-          );
+        : Container();
   }
 
   @override
@@ -657,7 +656,7 @@ class _DestinationPageState extends State<DestinationPage> {
                         shape: BoxShape.circle,
                         image: new DecorationImage(
                           fit: BoxFit.fill,
-                          image: new NetworkImage(
+                          image: new CachedNetworkImageProvider(
                               "https://i.imgur.com/iQkzaTO.jpg"),
                         ),
                       ),

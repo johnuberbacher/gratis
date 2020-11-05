@@ -92,7 +92,8 @@ class _GetStartedState extends State<GetStarted> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpPage()),
+                              builder: (context) => SignUpPage(),
+                            ),
                           );
                         },
                         child: Text(
@@ -109,13 +110,12 @@ class _GetStartedState extends State<GetStarted> {
                       padding: const EdgeInsets.only(
                         top: 30.0,
                       ),
-                      child: GestureDetector(
+                      child: InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignInPage(),
-                            ),
+                                builder: (context) => SignInPage()),
                           );
                         },
                         child: Text(

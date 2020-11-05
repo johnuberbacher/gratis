@@ -32,8 +32,11 @@ class _SignUpPageState extends State<SignUpPage> {
   signUpAccount() {
     if (formKey.currentState.validate()) {
       Map<String, String> userInfoMap = {
-        "name": firstNameTextEditingController.text,
-        "email": emailTextEditingController.text
+        "firstName": firstNameTextEditingController.text,
+        "lastName": lastNameTextEditingController.text,
+        "email": emailTextEditingController.text,
+        "fullName": firstNameLowercaseTextEditingController.text +
+            lastNameTextEditingController.text,
       };
 
       HelperFunctions.saveUserNamePreference(
@@ -259,7 +262,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SignUpPage(),
+                                  builder: (context) => SignInPage(),
                                 ),
                               );
                             },

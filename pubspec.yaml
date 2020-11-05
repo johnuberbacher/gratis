@@ -34,6 +34,7 @@ dependencies:
   photo_view: ^0.10.2
   google_maps_flutter: ^0.4.0
   cached_network_image: ^2.3.3
+  auto_size_text: ^2.1.0
 
 dev_dependencies:
   flutter_test:
