@@ -21,19 +21,21 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     if (showSignIn) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SignInPage(),
-        ),
-      );
+      return SignInPage(toggleView);
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => SignInPage(),
+      //   ),
+      // );
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GetStarted(),
-        ),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => GetStarted(),
+      //   ),
+      // );
+      return GetStarted(toggleView);
     }
   }
 }

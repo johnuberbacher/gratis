@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseMethods {
@@ -58,6 +59,16 @@ class DatabaseMethods {
   getLocationGallery(String locationName) async {
     return await FirebaseFirestore.instance
         .collection("galleries")
+        .where("galleryLocation", isEqualTo: locationName)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  getUserFavorite(String locationName) async {
+    return await FirebaseFirestore.instance
+        .collection("favorites")
         .where("galleryLocation", isEqualTo: locationName)
         .get()
         .catchError((e) {

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gratis/widgets.dart';
 import 'package:gratis/database.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class ReviewsPage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   final String locationName;
-  ReviewsPage(this.locationName);
+  ProfilePage(this.locationName);
   @override
-  _ReviewsPageState createState() => _ReviewsPageState(locationName);
+  _ProfilePageState createState() => _ProfilePageState(locationName);
 }
 
-class _ReviewsPageState extends State<ReviewsPage> {
-  final String locationName;
-  _ReviewsPageState(this.locationName);
+class _ProfilePageState extends State<ProfilePage> {
+  final String userFullName;
+  _ProfilePageState(this.userFullName);
   DatabaseMethods databaseMethods = new DatabaseMethods();
+  QuerySnapshot userSnapshot;
   QuerySnapshot reviewSnapshot;
 
   getLocationReviews(locationName) async {
@@ -23,15 +23,14 @@ class _ReviewsPageState extends State<ReviewsPage> {
     databaseMethods.getLocationReviews(locationName).then((val) {
       print(val.toString());
       setState(() {
-        reviewSnapshot = val;
-        print(reviewSnapshot.toString());
+        userSnapshot = val;
+        print(userSnapshot.toString());
       });
     });
   }
 
   @override
   void initState() {
-    getLocationReviews(locationName);
     super.initState();
   }
 
@@ -109,7 +108,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                capitalizeFirstOfEach(reviewUser),
+                                reviewUser,
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,

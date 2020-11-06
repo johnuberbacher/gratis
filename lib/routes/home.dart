@@ -97,6 +97,32 @@ class _HomeScreenState extends State<HomeScreen> {
           );
   }
 
+  Widget bestDealsList() {
+    return locationSnapshot != null
+        ? ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: locationSnapshot.docs.length,
+            itemBuilder: (context, index) {
+              return destinationCard(
+                  locationName:
+                      locationSnapshot.docs[index].data()["locationName"],
+                  locationBackdropImagePath:
+                      locationSnapshot.docs[index].data()["backdropPath"]);
+            },
+          )
+        : Container(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 30.0,
+                ),
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+  }
+
   Widget locationCard({String locationName, String locationBackdropImagePath}) {
     return Container(
       margin: const EdgeInsets.only(
@@ -289,6 +315,99 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     AuthMethods authMethods = new AuthMethods();
     return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              leading: Container(),
+              actions: <Widget>[
+                IconButton(
+                    icon: Container(
+                      width: 32.0,
+                      height: 32.0,
+                      decoration: new BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: CachedNetworkImageProvider(
+                              "https://i.imgur.com/iQkzaTO.jpg"),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      authMethods.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Authenticate()),
+                      );
+                    }),
+              ],
+              iconTheme: IconThemeData(
+                color: Colors.white,
+              ),
+              expandedHeight: 200.0,
+              floating: false,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                background: Container(
+                  child: Image.asset(
+                    "assets/images/getStartedBg.jpg",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+          ];
+        },
+        body: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(
+              top: 20.0,
+            ),
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sectionTitle("Best Selling"),
+                Container(
+                  height: 235,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      locationList(),
+                    ],
+                  ),
+                ),
+                sectionTitle("Popular Destinations"),
+                Container(
+                  height: 200,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      destinationList(),
+                    ],
+                  ),
+                ),
+                sectionTitle("Best Deals"),
+                Container(
+                  height: 200,
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      bestDealsList(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 12.0,
         unselectedFontSize: 12.0,
@@ -339,83 +458,6 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).primaryColor,
         onTap: _onItemTapped,
-      ),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              actions: <Widget>[
-                IconButton(
-                    icon: Container(
-                      width: 32.0,
-                      height: 32.0,
-                      decoration: new BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          image: CachedNetworkImageProvider(
-                              "https://i.imgur.com/iQkzaTO.jpg"),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      authMethods.signOut();
-                    }),
-              ],
-              iconTheme: IconThemeData(
-                color: Colors.white,
-              ),
-              expandedHeight: 200.0,
-              floating: false,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                background: Container(
-                  child: Image.asset(
-                    "assets/images/getStartedBg.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-          ];
-        },
-        body: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.only(
-              top: 20.0,
-            ),
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                sectionTitle("Best Deals"),
-                Container(
-                  height: 235,
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      locationList(),
-                    ],
-                  ),
-                ),
-                sectionTitle("Popular Destinations"),
-                Container(
-                  height: 200,
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      destinationList(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

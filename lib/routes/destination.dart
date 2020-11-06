@@ -81,10 +81,14 @@ class _DestinationPageState extends State<DestinationPage> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
+                String locationName = capitalizeFirstOfEach(
+                    destinationSnapshot.docs[index].data()["locationName"]);
                 String city =
                     capitalize(destinationSnapshot.docs[index].data()["city"]);
                 String country = capitalize(
                     destinationSnapshot.docs[index].data()["country"]);
+                String rateUSD = capitalize(
+                    destinationSnapshot.docs[index].data()["rateUSD"]);
                 return SingleChildScrollView(
                   child: Container(
                     margin: const EdgeInsets.only(
@@ -94,22 +98,79 @@ class _DestinationPageState extends State<DestinationPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        sectionTitle(capitalizeFirstOfEach(destinationSnapshot
-                                .docs[index]
-                                .data()["locationName"]) ??
-                            "error"),
-                        Container(
-                          margin: const EdgeInsets.only(
-                            top: 10.0,
-                            left: 20.0,
-                            right: 20.0,
-                          ),
-                          child: Text(
-                            '$city, $country' ?? "error",
-                            style: TextStyle(
-                              color: Colors.grey,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      left: 20.0,
+                                      right: 20.0,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 15.0,
+                                      ),
+                                      child: Text(
+                                        capitalize(locationName) ?? "error",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      top: 10.0,
+                                      left: 20.0,
+                                      right: 20.0,
+                                    ),
+                                    child: Text(
+                                      '$city, $country' ?? "error",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                top: 10.0,
+                                left: 20.0,
+                                right: 20.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    r"$" + rateUSD,
+                                    style: TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      top: 5.0,
+                                    ),
+                                    child: Text(
+                                      "/ night",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                         Container(
                           margin: const EdgeInsets.only(
@@ -380,6 +441,33 @@ class _DestinationPageState extends State<DestinationPage> {
                           ),
                         ),
                         reviewsList(),
+                        Container(
+                          margin: const EdgeInsets.only(
+                            left: 20.0,
+                            right: 20.0,
+                          ),
+                          child: Divider(),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(
+                            top: 15.0,
+                            left: 20.0,
+                            right: 20.0,
+                            bottom: 25.0,
+                          ),
+                          width: double.infinity,
+                          child: RaisedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Book Now",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                                color: Color(0xFFFFFFFF),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -403,7 +491,7 @@ class _DestinationPageState extends State<DestinationPage> {
     return reviewSnapshot != null
         ? ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: 1,
+            itemCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
@@ -473,7 +561,7 @@ class _DestinationPageState extends State<DestinationPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                reviewUser,
+                                capitalizeFirstOfEach(reviewUser),
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
@@ -648,20 +736,10 @@ class _DestinationPageState extends State<DestinationPage> {
             SliverAppBar(
               actions: <Widget>[
                 IconButton(
-                    icon: Container(
-                      width: 32.0,
-                      height: 32.0,
-                      decoration: new BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          image: new CachedNetworkImageProvider(
-                              "https://i.imgur.com/iQkzaTO.jpg"),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {}),
+                  icon: const Icon(Icons.favorite_border),
+                  tooltip: 'Next page',
+                  onPressed: () {},
+                ),
               ],
               iconTheme: IconThemeData(
                 color: Colors.white,

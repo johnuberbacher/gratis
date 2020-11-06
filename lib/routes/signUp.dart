@@ -7,6 +7,8 @@ import 'package:gratis/database.dart';
 import 'package:gratis/services/auth.dart';
 
 class SignUpPage extends StatefulWidget {
+  final Function toggleView;
+  SignUpPage(this.toggleView);
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
@@ -19,8 +21,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final formKey = GlobalKey<FormState>();
   TextEditingController firstNameTextEditingController =
-      new TextEditingController();
-  TextEditingController firstNameLowercaseTextEditingController =
       new TextEditingController();
   TextEditingController lastNameTextEditingController =
       new TextEditingController();
@@ -35,8 +35,8 @@ class _SignUpPageState extends State<SignUpPage> {
         "firstName": firstNameTextEditingController.text,
         "lastName": lastNameTextEditingController.text,
         "email": emailTextEditingController.text,
-        "fullName": firstNameLowercaseTextEditingController.text +
-            lastNameTextEditingController.text,
+        "fullName":
+            '${firstNameTextEditingController.text} ${lastNameTextEditingController.text}',
       };
 
       HelperFunctions.saveUserNamePreference(
@@ -259,10 +259,12 @@ class _SignUpPageState extends State<SignUpPage> {
                           width: double.infinity,
                           child: InkWell(
                             onTap: () {
+                              ;
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SignInPage(),
+                                  builder: (context) =>
+                                      SignInPage(widget.toggleView),
                                 ),
                               );
                             },
@@ -275,7 +277,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                     style: TextStyle(
                                       color: Color(0xFF9f9f9f),
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 16,
                                     ),
                                   ),
                                   TextSpan(
@@ -283,7 +284,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 16,
                                     ),
                                   ),
                                 ],

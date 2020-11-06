@@ -8,6 +8,8 @@ import 'package:gratis/services/auth.dart';
 import 'package:gratis/services/shared_preferences.dart';
 
 class GetStarted extends StatefulWidget {
+  final Function toggleView;
+  GetStarted(this.toggleView);
   @override
   _GetStartedState createState() => _GetStartedState();
 }
@@ -92,7 +94,8 @@ class _GetStartedState extends State<GetStarted> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignUpPage(),
+                              builder: (context) =>
+                                  SignUpPage(widget.toggleView),
                             ),
                           );
                         },
@@ -115,14 +118,15 @@ class _GetStartedState extends State<GetStarted> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignInPage()),
+                              builder: (context) =>
+                                  SignInPage(widget.toggleView),
+                            ),
                           );
                         },
                         child: Text(
-                          "Already have an account? Log in",
+                          "Already have an account?  Login instead",
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 14,
                             color: Color(0xFFFFFFFF),
                           ),
                         ),

@@ -8,6 +8,8 @@ import 'package:gratis/services/auth.dart';
 import 'package:gratis/services/shared_preferences.dart';
 
 class SignInPage extends StatefulWidget {
+  final Function toggleView;
+  SignInPage(this.toggleView);
   @override
   _SignInPageState createState() => _SignInPageState();
 }
@@ -182,7 +184,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                               signIn();
                             },
                             child: Text(
-                              "Sign up",
+                              "Sign In",
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16,
@@ -201,7 +203,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => GetStarted(),
+                                  builder: (context) => Authenticate(),
                                 ),
                               );
                             },
@@ -214,15 +216,13 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                                     style: TextStyle(
                                       color: Color(0xFF9f9f9f),
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 16,
                                     ),
                                   ),
                                   TextSpan(
-                                    text: '  Sign up',
+                                    text: '  Sign up instead',
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 16,
                                     ),
                                   ),
                                 ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gratis/routes/getStarted.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gratis/routes/home.dart';
 import 'package:gratis/services/shared_preferences.dart';
@@ -53,8 +52,8 @@ class _MyAppState extends State<MyApp> {
       title: "Welcome to Gratis",
       debugShowCheckedModeBanner: false,
       home: userIsLoggedIn != null
-          ? userIsLoggedIn ? HomeScreen() : GetStarted()
-          : GetStarted(),
+          ? userIsLoggedIn ? HomeScreen() : Authenticate()
+          : Authenticate(),
       theme: ThemeData(
         primarySwatch: Colors.teal,
         primaryColor: Color(0xFF54d3c2),
