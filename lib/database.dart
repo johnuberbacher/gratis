@@ -66,6 +66,16 @@ class DatabaseMethods {
     });
   }
 
+  getGalleryImages(String locationName) async {
+    return await FirebaseFirestore.instance
+        .collection("galleries")
+        .where("galleryLocation", isEqualTo: locationName)
+        .get()
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   getUserFavorite(String locationName) async {
     return await FirebaseFirestore.instance
         .collection("favorites")

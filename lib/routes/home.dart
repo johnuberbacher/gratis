@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gratis/routes/destination.dart';
+import 'package:gratis/routes/profile.dart';
 import 'package:gratis/widgets.dart';
 import 'package:gratis/services/auth.dart';
+import 'package:gratis/services/user.dart';
+import 'package:gratis/services/shared_preferences.dart';
 import 'package:gratis/database.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -300,15 +303,24 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  @override
-  void initState() {
-    getLocations();
+  getUserInfo() async {
+    Constants.userFullName =
+        await CheckSharedPreferences.getNameSharedPreference();
+    setState(() {
+      print("Shared Preferences: users name: ${Constants.userFullName}");
+    });
   }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    getLocations();
+    getUserInfo();
   }
 
   @override
@@ -336,10 +348,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     onPressed: () {
-                      authMethods.signOut();
+                      // authMethods.signOut();
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => Authenticate()),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ProfilePage(Constants.userFullName)),
                       );
                     }),
               ],

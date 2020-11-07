@@ -5,10 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String locationName;
-  ProfilePage(this.locationName);
+  final String userFullName;
+  ProfilePage(this.userFullName);
   @override
-  _ProfilePageState createState() => _ProfilePageState(locationName);
+  _ProfilePageState createState() => _ProfilePageState(userFullName);
 }
 
 class _ProfilePageState extends State<ProfilePage> {

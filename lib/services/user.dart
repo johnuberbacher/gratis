@@ -1,4 +1,9 @@
 class CurrentUser {
   String userId;
-  CurrentUser({this.userId});
+  String userFullName;
+  CurrentUser({this.userId, this.userFullName});
+}
+
+class Constants {
+  static String userFullName = "";
 }

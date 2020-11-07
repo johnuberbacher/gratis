@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gratis/routes/gallery.dart';
 import 'package:gratis/widgets.dart';
 import 'package:gratis/database.dart';
 import 'package:gratis/routes/reviews.dart';
@@ -674,7 +675,14 @@ class _DestinationPageState extends State<DestinationPage> {
                           ),
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GalleryPage(locationName),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
