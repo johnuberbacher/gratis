@@ -405,50 +405,12 @@ class _DestinationPageState extends State<DestinationPage> {
                         galleryImages(),
                         Container(
                           margin: const EdgeInsets.only(
-                            top: 10.0,
-                            left: 20.0,
-                            right: 20.0,
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              destinationTitle("Reviews (15)"),
-                              InkWell(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 10.0,
-                                  ),
-                                  child: Text(
-                                    "View All",
-                                    style: new TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ReviewsPage(
-                                          destinationSnapshot.docs[index]
-                                              .data()["locationName"]),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        reviewsList(),
-                        Container(
-                          margin: const EdgeInsets.only(
                             left: 20.0,
                             right: 20.0,
                           ),
                           child: Divider(),
                         ),
+                        reviewsList(),
                         Container(
                           margin: const EdgeInsets.only(
                             top: 15.0,
@@ -489,14 +451,14 @@ class _DestinationPageState extends State<DestinationPage> {
   }
 
   Widget reviewsList() {
-    return reviewSnapshot != null
+    return reviewSnapshot.docs.length != 0
         ? ListView.builder(
             scrollDirection: Axis.vertical,
             itemCount: 2,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return reviewItem(
+              return reviewList(
                 reviewUser: reviewSnapshot.docs[index].data()["reviewUser"],
                 reviewBody: reviewSnapshot.docs[index].data()["reviewBody"],
               );
@@ -514,135 +476,178 @@ class _DestinationPageState extends State<DestinationPage> {
           );
   }
 
-  Widget reviewItem({String reviewUser, String reviewBody}) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 20.0,
-        bottom: 20.0,
-        right: 20.0,
-      ),
-      child: Column(
-        children: [
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 15.0,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+  Widget reviewList({String reviewUser, String reviewBody}) {
+    return reviewSnapshot.docs.length != 0
+        ? Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(
+                  top: 10.0,
+                  left: 20.0,
+                  right: 20.0,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 40.0,
-                          height: 40.0,
-                          margin: const EdgeInsets.only(
-                            right: 15.0,
-                          ),
-                          decoration: new BoxDecoration(
-                            border: Border.all(color: Colors.white),
-                            shape: BoxShape.circle,
-                            image: new DecorationImage(
-                              fit: BoxFit.fill,
-                              image: new CachedNetworkImageProvider(
-                                  "https://i.imgur.com/iQkzaTO.jpg"),
-                            ),
+                    destinationTitle("Reviews (15)"),
+                    InkWell(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10.0,
+                        ),
+                        child: Text(
+                          "View All",
+                          style: new TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            right: 20.0,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReviewsPage(locationName),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                capitalizeFirstOfEach(reviewUser),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Text(
-                                "Posted November 1, 2020",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 3.0,
-                          ),
-                          child: Text("Rating"),
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.star,
-                              color: Theme.of(context).primaryColor,
-                              size: 18,
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Theme.of(context).primaryColor,
-                              size: 18,
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Theme.of(context).primaryColor,
-                              size: 18,
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Theme.of(context).primaryColor,
-                              size: 18,
-                            ),
-                            Icon(
-                              Icons.star_half,
-                              color: Theme.of(context).primaryColor,
-                              size: 18,
-                            ),
-                          ],
-                        ),
-                      ],
+                        );
+                      },
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 15.0,
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        reviewBody,
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(
+                  left: 20.0,
+                  bottom: 20.0,
+                  right: 20.0,
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                child: Column(
+                  children: [
+                    Divider(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 15.0,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 40.0,
+                                    height: 40.0,
+                                    margin: const EdgeInsets.only(
+                                      right: 15.0,
+                                    ),
+                                    decoration: new BoxDecoration(
+                                      border: Border.all(color: Colors.white),
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: new CachedNetworkImageProvider(
+                                            "https://i.imgur.com/iQkzaTO.jpg"),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 20.0,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          capitalizeFirstOfEach(reviewUser),
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Posted November 1, 2020",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: 3.0,
+                                    ),
+                                    child: Text("Rating"),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 18,
+                                      ),
+                                      Icon(
+                                        Icons.star,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 18,
+                                      ),
+                                      Icon(
+                                        Icons.star,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 18,
+                                      ),
+                                      Icon(
+                                        Icons.star,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 18,
+                                      ),
+                                      Icon(
+                                        Icons.star_half,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 18,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 15.0,
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  reviewBody,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          )
+        : Container();
   }
 
   Widget galleryImages() {
