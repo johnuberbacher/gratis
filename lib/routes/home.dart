@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget bestDealsList() {
     return locationSnapshot != null
         ? ListView.builder(
-            scrollDirection: Axis.vertical,
+            scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             itemCount: locationSnapshot.docs.length,
             itemBuilder: (context, index) {
@@ -408,7 +408,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 sectionTitle("Best Deals"),
                 Container(
-                  height: 200,
+                  height: 600,
                   child: ListView(
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.horizontal,
